@@ -73,11 +73,6 @@ int	analyzer(vector<tuple<string, string>> list)
 				}
 			}
 
-			if (currentToken == "OPERATOR")
-			{
-				currentToken = "RELATIONAL";
-			}
-
 			if (currentToken == "SELECT")
 			{
 				currentToken = "KEYWORD";

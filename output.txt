@@ -26,7 +26,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: num
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -44,7 +44,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: num2
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -76,7 +76,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: hey
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -94,7 +94,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: hey
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -120,7 +120,7 @@ Token: SEP		Lexeme: (
 Token: id		Lexeme: num2
 
 <Relational>	->	>
-Token: RELATIONAL		Lexeme: >
+Token: OPERATOR		Lexeme: >
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -146,7 +146,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: large$
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
@@ -188,7 +188,7 @@ Token: EOS		Lexeme: $
 <Assignment>	->	id = <Expression>;
 Token: id		Lexeme: large$
 
-Token: RELATIONAL		Lexeme: =
+Token: OPERATOR		Lexeme: =
 
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
