@@ -221,11 +221,9 @@ Token: EOS		Lexeme: $
 <Statement>	->	while <Expression> { <Statement> }
 Token: KEYWORD		Lexeme: while
 
-<Expression>	->	<Term> <ExpressionPrime>
-<Term>		->	<Factor> <TermPrime>
-<Factor>	->	( <Expression> )
 Token: SEP		Lexeme: (
 
+<Conditional>	->	<Expression> <Relational> <Expression>
 <Expression>	->	<Term> <ExpressionPrime>
 <Term>		->	<Factor> <TermPrime>
 <Factor>	->	id
