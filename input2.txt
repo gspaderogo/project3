@@ -13,3 +13,4 @@ else
     large$ = num2; 
 }
 endif 
+while (hey) { large$ = num2; }
