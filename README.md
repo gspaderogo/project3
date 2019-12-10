@@ -1,4 +1,4 @@
-# Project 2 -- Syntax Analyzer
+# Project 3 -- Adding Implementation to Syntax Analyzer
 
 Team Members:
 
