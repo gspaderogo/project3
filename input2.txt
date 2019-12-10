@@ -1,0 +1,15 @@
+int num, num2, large$;
+num = 0;
+num2 = 15;
+boolean hey;
+hey = true;
+hey = false;
+if (num2 > num) 
+{ 
+    large$ = num; 
+} 
+else 
+{ 
+    large$ = num2; 
+}
+endif 

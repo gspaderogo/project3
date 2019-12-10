@@ -1,0 +1,220 @@
+<Statement>	->	<Declarative>
+<Declarative>	->	<TYPE> id <MoreIds>;
+<TYPE>	->	int
+Token: KEYWORD		Lexeme: int
+
+Token: id		Lexeme: num
+
+<MoreIds>	->	, id <MoreIds>
+Token: SEP		Lexeme: ,
+
+Token: id		Lexeme: num2
+
+<MoreIds>	->	, id <MoreIds>
+Token: SEP		Lexeme: ,
+
+Token: id		Lexeme: large$
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: num
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	integer
+Token: INTEGER		Lexeme: 0
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: num2
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	integer
+Token: INTEGER		Lexeme: 15
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Declarative>
+<Declarative>	->	<TYPE> id <MoreIds>;
+<TYPE>	->	boolean
+Token: KEYWORD		Lexeme: boolean
+
+Token: id		Lexeme: hey
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: hey
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	bool
+Token: KEYWORD		Lexeme: true
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: hey
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	bool
+Token: KEYWORD		Lexeme: false
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	if ( <Conditional> )
+Token: KEYWORD		Lexeme: if
+
+Token: SEP		Lexeme: (
+
+<Conditional>	->	<Expression> <Relational> <Expression>
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	id
+Token: id		Lexeme: num2
+
+<Relational>	->	>
+Token: RELATIONAL		Lexeme: >
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	id
+Token: id		Lexeme: num
+
+Token: SEP		Lexeme: )
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	{
+Token: SEP		Lexeme: {
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: large$
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	id
+Token: id		Lexeme: num
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	}
+Token: SEP		Lexeme: }
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	else
+Token: KEYWORD		Lexeme: else
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	{
+Token: SEP		Lexeme: {
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	<Assignment>
+<Assignment>	->	id = <Expression>;
+Token: id		Lexeme: large$
+
+Token: RELATIONAL		Lexeme: =
+
+<Expression>	->	<Term> <ExpressionPrime>
+<Term>		->	<Factor> <TermPrime>
+<Factor>	->	id
+Token: id		Lexeme: num2
+
+Token: SEP		Lexeme: ;
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	}
+Token: SEP		Lexeme: }
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	endif
+Token: KEYWORD		Lexeme: endif
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
