@@ -19,6 +19,11 @@
 #include <vector>
 using namespace std;
 
+struct Instruction {
+	int address;
+	string operation;
+	string operand;
+};
 
 vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list);
 

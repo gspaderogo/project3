@@ -1,5 +1,4 @@
 #include "assembly.h"
-#include "Instruction.h"
 
 vector<Instruction> instrTable;
 vector<tuple<string, int, string>> symbolTable;
