@@ -1,15 +1,23 @@
-int num, num2, large$;
+int num, nu2m, large$;
 num = 0;
-num2 = 15;
+nu2m = 15;
 boolean hey;
 hey = true;
 hey = false;
-if (num2 > num) 
-{ 
-    large$ = num; 
-} 
-else 
-{ 
-    large$ = num2; 
+if(num > nu2m)
+{
+	large$ = num;
 }
-endif 
+else
+{
+	large$ = nu2m;
+}
+endif
+while(hey)
+{
+	large$ = 1;
+}
+while(num > nu2m)
+{
+	large$ = 0;
+}
