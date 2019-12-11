@@ -11,6 +11,8 @@
 #include "lexicalAnalyzer.h"
 #include "syntaxAnalyzer.h"
 
+bool	checkDuplicate(vector<tuple<string, string>> table, string id);
+
 int main()
 {
 	ifstream inFile;
@@ -65,8 +67,9 @@ int main()
 				currentKey = get<1>(list.at(i)); 
 			}
 
-			if (get<0>(list.at(i)) == "IDENTIFIER")
+			if (get<0>(list.at(i)) == "IDENTIFIER" && (checkDuplicate(symbolTable, get<1>(list.at(i))) == false ))
 			{
+				identifier = get<1>(list.at(i));
 				//symbolTable.push_back(make_tuple(identifier, "integer"));
 				symbolTable.push_back(make_tuple(identifier, currentKey));
 			}
@@ -75,11 +78,12 @@ int main()
 		int j = 0;
 		int k = 1;
 		//Removes duplicates by comparing each element
-		while (j < symbolTable.size())
+		/*while (j < symbolTable.size())
 		{
 			while (k < symbolTable.size())
 			{
-				if (symbolTable[j] == symbolTable[k])
+				if (get<0>(symbolTable.at(j)) == get<0>(symbolTable.at(k)))
+				//if (symbolTable[j] == symbolTable[k])
 				{
 					symbolTable.erase(symbolTable.begin() + k);
 				}
@@ -87,7 +91,7 @@ int main()
 			}
 			++j;
 			k = j + 1;
-		}
+		}*/
 		//Prints the symbol table 
 		for (int i = 0; i < symbolTable.size(); ++i)
 		{
@@ -106,4 +110,18 @@ int main()
 
 	system("Pause");
 	return 0;
+}
+
+bool	checkDuplicate(vector<tuple<string, string>> table, string id)
+{
+	int i = 0;
+	while (i < table.size())
+		{
+			if (get<0>(table.at(i)) == id)
+			{
+				return true;
+			}
+			++i;
+		}
+	return false;	
 }
