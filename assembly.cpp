@@ -1,44 +1,49 @@
 #include "assembly.h"
 #include "Instruction.h"
 
+vector<Instruction> instrTable;
+vector<tuple<string, int, string>> symbolTable;
+tuple<string, int, string> item;
+
 int memLoc = 5000;
 int instrAddress = 1;
-vector<tuple<string, int, string>> table;
-vector<Instruction> instrTable;
+int i = 0;
+
+string currentKey;
+string identifier;
+
+bool repeat = false;
 
 vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list) 
 {
-	for (auto lexeme : list) {
-		if (get<0>(lexeme) == "IDENTIFIER") {
-
-			bool repeat = false;
-			tuple<string, int, string> item = make_tuple(get<1>(lexeme), memLoc, "INTEGER");
-
-			for (auto i : table) {
-				if (get<0>(i) == get<0>(item)) {
-					repeat = true;
-				}
-			}
-
-			if (!repeat) {
-				table.push_back(item);
-				memLoc++;
-			}
+	while(i < list.size())
+	{
+		if (get<0>(list.at(i)) == "KEYWORD")
+		{
+			currentKey = get<1>(list.at(i));
 		}
+
+		if (get<0>(list.at(i)) == "IDENTIFIER" && (checkDuplicate(symbolTable, get<1>(list.at(i))) == false))
+		{
+			identifier = get<1>(list.at(i));
+			symbolTable.push_back(make_tuple(identifier, memLoc, currentKey));
+			++memLoc;
+		}
+		++i;
 	}
 
 	cout << endl << "----- SYMBOL TABLE -----" << endl;
 	cout << "Identifier\t" << "Memory Location\t\t" << "Type" << endl;
-	for (auto i : table) {
+	for (auto i : symbolTable) {
 		cout << get<0>(i) << "\t\t"
 			<< get<1>(i) << "\t\t\t"
 			<< get<2>(i) << endl;
 	}
 
-	return table;
+	return symbolTable;
 }
 
-bool checkDuplicate(vector<tuple<string, string>> table, string id)
+bool checkDuplicate(vector<tuple<string, int, string>> table, string id)
 {
 	int i = 0;
 	while (i < table.size())

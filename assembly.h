@@ -22,7 +22,7 @@ using namespace std;
 
 vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list);
 
-bool checkDuplicate(vector<tuple<string, string>> table, string id);
+bool checkDuplicate(vector<tuple<string, int, string>> table, string id);
 
 void genInstruction(string operation, string id);
 
