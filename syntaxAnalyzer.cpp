@@ -11,6 +11,15 @@
 #include "lexicalAnalyzer.h"
 using namespace std;
 
+struct Instruction {
+	int address;
+	string operation;
+	string operand;
+};
+
+int memLoc = 5000;
+int instrAddress = 1;
+vector<Instruction> instrTable;
 
 int	analyzer(vector<tuple<string, string>> list)
 {
@@ -39,11 +48,20 @@ int	analyzer(vector<tuple<string, string>> list)
 												 {"M",    "-1",       "-1",   "-1",  "-1",   "-1",  "-1",  "-1",  "-1",  "-1",  "-1",   "-1",  "-1",       "-1",    "-1",   "-1",   "e",    "23",  "-1",  "-1",  "-1",   "-1",    "-1",        "-1",  "-1" },
 												};
 
-	for (int i = 0; i < list.size(); i++) {
-		if (get<0>(list.at(i)) == "EOS") {
+	// removes empty lines
+	for (int i = (list.size() - 1); i > 0; i--) {
+		if (get<1>(list.at(i)) == "$" && get<1>(list.at(i - 1)) == "$") {
+			list.erase(list.begin() + i);
+		}
+	}
+
+	for (auto i : list) {
+		if (get<0>(i) == "EOS") {
 			numStatements++;
 		}
 	}
+
+	vector<tuple<string, int, string>> symbolTable = genSymbols(list);
 
 	for (int i = 0; i < numStatements; i++) {
 		// push "$" and starting "S" symbol
@@ -147,6 +165,7 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("E");
 					tableStack.push("=");
 					tableStack.push("id");
+					genInstruction("POPM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "5")
 				{
@@ -158,12 +177,14 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("E'");
 					tableStack.push("T");
 					tableStack.push("+");
+					genInstruction("ADD", "nil");
 				}
 				else if (parserTable[row][col] == "7")
 				{
 					tableStack.push("E'");
 					tableStack.push("T");
 					tableStack.push("-");
+					genInstruction("SUB", "nil");
 				}
 				else if (parserTable[row][col] == "8")
 				{
@@ -175,12 +196,14 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("T'");
 					tableStack.push("F");
 					tableStack.push("*");
+					genInstruction("MUL", "nil");
 				}
 				else if (parserTable[row][col] == "10")
 				{
 					tableStack.push("T'");
 					tableStack.push("F");
 					tableStack.push("/");
+					genInstruction("DIV", "nil");
 				}
 				
 				else if (parserTable[row][col] == "11")
@@ -192,6 +215,7 @@ int	analyzer(vector<tuple<string, string>> list)
 				else if (parserTable[row][col] == "12")
 				{
 					tableStack.push("id");
+					genInstruction("PUSHM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "13")
 				{
@@ -271,6 +295,11 @@ int	analyzer(vector<tuple<string, string>> list)
 	}
 
 	outFile.close();
+
+	cout << "Address\t" << "Op\t" << "Operand" << endl;
+	for (auto instr : instrTable) {
+		cout << instr.address << "\t" << instr.operation << "\t" << instr.operand << endl;
+	}
 	return 0;
 }
 
@@ -514,4 +543,127 @@ int	getCol(string check)
 		return 24;
 	else
 		return -1;
+}
+
+//vector<tuple<string, string>> genSymbols(vector<tuple<string, string>> list) {
+//	//--------------------------------- SYMBOL TABLE -----------------------------//
+//	vector<tuple<string, string>> symbolTable;
+//	cout << "TEST\n";
+//	cout << "MEMORY\tIDENTIFIER\tTYPE\n";
+//	int i = 0;
+//	string currentKey; // to keep track of the current key word for mulitple variable declarations
+//	//Adds all cases of "IDENTIFIER" to a symbol table vector
+//	string identifier = get<1>(list.at(i));
+//	while (i < list.size())
+//	{
+//		if (get<0>(list.at(i)) == "KEYWORD")
+//		{
+//			currentKey = get<1>(list.at(i));
+//		}
+//
+//		if (get<0>(list.at(i)) == "IDENTIFIER" && (checkDuplicate(symbolTable, get<1>(list.at(i))) == false))
+//		{
+//			identifier = get<1>(list.at(i));
+//			//symbolTable.push_back(make_tuple(identifier, "integer"));
+//			symbolTable.push_back(make_tuple(identifier, currentKey));
+//		}
+//		++i;
+//	}
+//	int j = 0;
+//	int k = 1;
+//	//Removes duplicates by comparing each element
+//	/*while (j < symbolTable.size())
+//	{
+//		while (k < symbolTable.size())
+//		{
+//			if (get<0>(symbolTable.at(j)) == get<0>(symbolTable.at(k)))
+//			//if (symbolTable[j] == symbolTable[k])
+//			{
+//				symbolTable.erase(symbolTable.begin() + k);
+//			}
+//			++k;
+//		}
+//		++j;
+//		k = j + 1;
+//	}*/
+//	//Prints the symbol table 
+//	for (int i = 0; i < symbolTable.size(); ++i)
+//	{
+//		cout << i + 5000
+//			<< "\t"
+//			<< get<0>(symbolTable.at(i))
+//			<< "\t\t"
+//			<< get<1>(symbolTable.at(i)) << "\n";
+//	}
+//
+//	return symbolTable;
+//}
+
+vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list) {
+	vector<tuple<string, int, string>> table;
+
+	for (auto lexeme : list) {
+		if (get<0>(lexeme) == "IDENTIFIER") {
+
+			bool repeat = false;
+			tuple<string, int, string> item = make_tuple(get<1>(lexeme), memLoc, "INTEGER");
+
+			for (auto i : table) {
+				if (get<0>(i) == get<0>(item)) {
+					repeat = true;
+				}
+			}
+
+			if (!repeat) {
+				table.push_back(item);
+				memLoc++;
+			}
+		}
+	}
+
+	cout << endl << "----- SYMBOL TABLE -----" << endl;
+	cout << "Identifier\t" << "Memory Location\t\t" << "Type" << endl;
+	for (auto i : table) {
+		cout << get<0>(i) << "\t\t"
+			<< get<1>(i) << "\t\t\t"
+			<< get<2>(i) << endl;
+	}
+
+	//for (auto i : list) {
+	//	cout << "<" << get<0>(i) << ", " << get<1>(i) << ">" << endl;
+	//}
+	return table;
+}
+
+bool checkDuplicate(vector<tuple<string, string>> table, string id)
+{
+	int i = 0;
+	while (i < table.size())
+	{
+		if (get<0>(table.at(i)) == id)
+		{
+			return true;
+		}
+		++i;
+	}
+	return false;
+}
+
+void genInstruction(string operation, string operand) {
+	Instruction instr;
+
+	instr.address = instrAddress;
+	instr.operation = operation;
+	instr.operand = operand;
+
+	instrTable.push_back(instr);
+	instrAddress++;
+}
+
+string getAddress(vector<tuple<string, int, string>> table, string token) {
+	for (auto i : table) {
+		if (get<0>(i) == token) {
+			return to_string(get<1>(i));
+		}
+	}
 }

@@ -52,5 +52,4 @@ tuple<string, string> backgroundLex(ifstream& inFile);
 //Prints the lexer
 tuple<string, string> lexer(ifstream& inFile, ofstream& outFile);
 
-
 #endif
