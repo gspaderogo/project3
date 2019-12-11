@@ -14,6 +14,8 @@ string identifier;
 
 bool repeat = false;
 
+ofstream outFile("assemblyCode.txt");
+
 vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list) 
 {
 	while(i < list.size())
@@ -32,10 +34,10 @@ vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list
 		++i;
 	}
 
-	cout << endl << "----- SYMBOL TABLE -----" << endl;
-	cout << "Identifier\t" << "Memory Location\t\t" << "Type" << endl;
+	outFile << endl << "----- SYMBOL TABLE -----" << endl;
+	outFile << "Identifier\t" << "Memory Location\t\t" << "Type" << endl;
 	for (auto i : symbolTable) {
-		cout << get<0>(i) << "\t\t"
+		outFile << get<0>(i) << "\t\t"
 			<< get<1>(i) << "\t\t\t"
 			<< get<2>(i) << endl;
 	}
