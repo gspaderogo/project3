@@ -10,14 +10,17 @@
 
 #include "lexicalAnalyzer.h"
 #include "syntaxAnalyzer.h"
+#include "assembly.h"
+#include <map>
 
-bool	checkDuplicate(vector<tuple<string, string>> table, string id);
 
 int main()
 {
 	ifstream inFile;
 	string userInput;
 	ofstream outFile("output.txt");
+	vector<tuple<string, string>> list;
+	//vector<tuple<string, string>> symbolTable;
 
 	cout << "------------------------------------------------------------\n"
 		<< "SYNTAX ANALYZER by:\n"
@@ -31,17 +34,13 @@ int main()
 
 	cin >> userInput;				//Saves file destination as string
 
-	inFile.open(userInput);			//Opens file by passing string									
 
+	inFile.open(userInput);
 	if (inFile.is_open())
 	{
-		//outFile << left << setw(40) << "TOKEN" << "LEXEME" << endl;
-		vector<tuple<string, string>> list;
 
 		while (!inFile.eof())
 		{
-			//lexer(inFile, outFile);
-
 			tuple<string, string> token = backgroundLex(inFile); // puts data into vector
 			list.push_back(token);
 		}
@@ -57,7 +56,10 @@ int main()
 		<< "\nError - file could not be opened.\n\n";
 
 	inFile.close();
+	outFile.close();
 
+	genSymbols(list);
+	
 	system("Pause");
 	return 0;
 }
