@@ -34,7 +34,7 @@ int	getCol(string check);
 bool isTerminal(string check);
 
 //Displays which production rule is used
-void printRule(string ruleNum, ofstream &output);
+void printRule(string ruleNum, ofstream& output);
 
 //Determines if string is an identifier
 bool isIdentifier(const string& str);
@@ -42,12 +42,5 @@ bool isIdentifier(const string& str);
 //Helper function for isIdentifier
 int columnNum(char c);
 
-vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list);
-
-bool checkDuplicate(vector<tuple<string, string>> table, string id);
-
-void genInstruction(string operation, string id);
-
-string getAddress(vector<tuple<string, int, string>> table, string token);
 
 #endif
