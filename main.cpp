@@ -49,7 +49,8 @@ int main()
 
 		cout << "------------------------------------------------------------\n"
 			<< "File has successfully been processed.\n"
-			<< "Your results have been printed to \"output.txt.\"\n\n";
+			<< "Your results have been printed to \"output.txt.\"\n"
+			<< "Symbol table has been printed to \"assemblyCode.txt\"\n\n";
 	}
 	else
 		cerr << "------------------------------------------------------------\n"
