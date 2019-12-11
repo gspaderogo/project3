@@ -218,7 +218,7 @@ Token: EOS		Lexeme: $
 
 ---------- END OF STATEMENT ----------
 
-<Statement>	->	while <Expression> { <Statement> }
+<Statement>	->	while ( <Conditional> )
 Token: KEYWORD		Lexeme: while
 
 Token: SEP		Lexeme: (
@@ -231,7 +231,18 @@ Token: id		Lexeme: hey
 
 Token: SEP		Lexeme: )
 
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	{
 Token: SEP		Lexeme: {
+
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
 
 <Statement>	->	<Assignment>
 <Assignment>	->	id = <Expression>;
@@ -246,6 +257,12 @@ Token: id		Lexeme: num2
 
 Token: SEP		Lexeme: ;
 
+Token: EOS		Lexeme: $
+
+
+---------- END OF STATEMENT ----------
+
+<Statement>	->	}
 Token: SEP		Lexeme: }
 
 Token: EOS		Lexeme: $

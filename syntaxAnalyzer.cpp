@@ -135,9 +135,6 @@ int	analyzer(vector<tuple<string, string>> list)
 				}
 				else if (parserTable[row][col] == "3")
 				{
-					tableStack.push("}");
-					tableStack.push("S");
-					tableStack.push("{");
 					tableStack.push(")");
 					tableStack.push("C");
 					tableStack.push("(");
@@ -294,7 +291,7 @@ void printRule(string ruleNum, ofstream &output)
 	{
 		//E -> TE'
 		//cout << "<Expression>\t->\t<Term> <Expression>'" << endl;
-		output << "<Statement>\t->\twhile ( <Conditional> ) { <Statement> }" << endl;
+		output << "<Statement>\t->\twhile ( <Conditional> )" << endl;
 	}
 	else if (ruleNum == "4")
 	{
