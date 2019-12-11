@@ -279,127 +279,137 @@ void printRule(string ruleNum, ofstream& output)
 {
 	if (ruleNum == "1")
 	{
-		// S -> A
+		//S -> A
 		output << "<Statement>\t->\t<Assignment>" << endl;
 	}
 	else if (ruleNum == "2")
 	{
-		//A -> id = E
+		//S -> D
 		output << "<Statement>\t->\t<Declarative>" << endl;
 	}
 	else if (ruleNum == "3")
 	{
-		//E -> TE'
-		//cout << "<Expression>\t->\t<Term> <Expression>'" << endl;
+		//S -> while ( C )
 		output << "<Statement>\t->\twhile ( <Conditional> )" << endl;
 	}
 	else if (ruleNum == "4")
 	{
-		//E' -> +TE'
-		//cout << "<Expression>\t->\t<Expression> + <Term>" << endl;
+		//A -> id = E;
 		output << "<Assignment>\t->\tid = <Expression>;" << endl;
 	}
 	else if (ruleNum == "5")
 	{
-		//E' -> -TE'
-		//cout << "<Expression>\t->\t<Expression> - <Term>'" << endl;
+		//E -> TE'
 		output << "<Expression>\t->\t<Term> <ExpressionPrime>" << endl;
 	}
 	else if (ruleNum == "6")
 	{
-		//T -> FT'
-		//cout << "<Term>\t\t->\t<Factor> <Term>'" << endl;
+		//E' -> +TE
 		output << "<ExpressionPrime>\t\t->\t+ <Term> <ExpressionPrime>" << endl;
 	}
 	else if (ruleNum == "7")
 	{
-		//T' -> *FT'
-		//cout << "<Term>\t\t->\t<Term> * <Factor>" << endl;
+		//E' -> -TE'
 		output << "<ExpressionPrime>\t\t->\t- <Term> <ExpressionPrime>" << endl;
 	}
 	else if (ruleNum == "8")
 	{
-		//T' -> /FT'
-		//cout << "<Term>\t\t->\t<Term> / <Factor>" << endl;
+		//T -> FT'
 		output << "<Term>\t\t->\t<Factor> <TermPrime>" << endl;
 	}
 	else if (ruleNum == "9")
 	{
-		//F -> (E)
+		//T' -> *FT
 		output << "<TermPrime>\t->\t* <Factor> <TermPrime>" << endl;
 	}
 	else if (ruleNum == "10")
 	{
-		//F -> id
+		//T' -> /FT'
 		output << "<TermPrime>\t->\t/ <Factor> <TermPrime>" << endl;
 	}
 	else if (ruleNum == "11")
 	{
-		//S -> SEL
+		//F -> ( E )
 		output << "<Factor>\t->\t( <Expression> )" << endl;
 	}
 	else if (ruleNum == "12")
 	{
+		//F -> id
 		output << "<Factor>\t->\tid" << endl;
 	}
 	else if (ruleNum == "13")
 	{
+		//F -> integer
 		output << "<Factor>\t->\tinteger" << endl;
 	}
 	else if (ruleNum == "14")
 	{
+		//F -> bool
 		output << "<Factor>\t->\tbool" << endl;
 	}
 	else if (ruleNum == "15")
 	{
+		//S -> if ( C )
 		output << "<Statement>\t->\tif ( <Conditional> )" << endl;
 	}
 	else if (ruleNum == "16")
 	{
+		//D -> TYPE id M;
 		output << "<Declarative>\t->\t<TYPE> id <MoreIds>;" << endl;
 	}
 	else if (ruleNum == "17")
 	{
+		//C -> E R E
 		output << "<Conditional>\t->\t<Expression> <Relational> <Expression>" << endl;
 	}
 	else if (ruleNum == "18")
 	{
+		//R -> <
 		output << "<Relational>\t->\t<" << endl;
 	}
 	else if (ruleNum == "19")
 	{
+		//R -> >
 		output << "<Relational>\t->\t>" << endl;
 	}
 	else if (ruleNum == "20")
 	{
+		//R -> ==
 		output << "<Relational>\t->\t==" << endl;
 	}
 	else if (ruleNum == "21")
 	{
+		//TYPE -> int
 		output << "<TYPE>\t->\tint" << endl;
 	}
 	else if (ruleNum == "22")
 	{
+		//TYPE -> boolean
 		output << "<TYPE>\t->\tboolean" << endl;
 	}
 	else if (ruleNum == "23")
 	{
+		//M -> , id M | e
 		output << "<MoreIds>\t->\t, id <MoreIds>" << endl;
 	}
 	else if (ruleNum == "24")
 	{
+		//S -> {
 		output << "<Statement>\t->\t{" << endl;
 	}
 	else if (ruleNum == "25")
 	{
+		//S -> }
 		output << "<Statement>\t->\t}" << endl;
 	}
 	else if (ruleNum == "26")
 	{
+		//S -> else
 		output << "<Statement>\t->\telse" << endl;
 	}
 	else if (ruleNum == "27")
 	{
+		//S -> endif
 		output << "<Statement>\t->\tendif" << endl;
 	}
 	else if (ruleNum == "e")
@@ -408,20 +418,18 @@ void printRule(string ruleNum, ofstream& output)
 		//Not necessary since we don't know need to point this out
 		output << "";
 	}
-	/*else // error message and exit program
-	{
-		output << "Unexpected Error...Incorrect rule usage" << endl;
-		output << "Exiting parser..." << endl;
-		output.close();
-		cout << "Error occured please check 'output.txt for details" << endl;
-		exit(EXIT_FAILURE);
-	}*/
+
 }
 
-////Determines if string is a terminal
+//Determines if string is a terminal
 bool isTerminal(string check)
 {
-	if (check == "while" || check == "{" || check == "}" || check == "id" || check == "=" || check == "+" || check == "-" || check == "*" || check == "/" || check == "(" || check == ")" || check == "integer" || check == "bool" || check == "if" || check == "else" || check == ";" || check == "," || check == "<" || check == ">" || check == "==" || check == "int" || check == "boolean" || check == "$" || check == "endif")
+	if (check == "while" || check == "{"       || check == "}"    || check == "id"      || 
+	check == "="         || check == "+"       || check == "-"    || check == "*"       ||
+	check == "/"         || check == "("       || check == ")"    || check == "integer" || 
+	check == "bool"      || check == "if"      || check == "else" || check == ";"       || 
+	check == ","         || check == "<"       || check == ">"    || check == "=="      || 
+	check == "int"       || check == "boolean" || check == "$"    || check == "endif")
 	{
 		return true;
 	}
