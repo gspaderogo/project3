@@ -11,6 +11,16 @@
 #ifndef assembly_hpp
 #define assembly_hpp
 
+/*
+	Johanna Nguyen
+	Gilbert Paderogo
+	Richard Phan
+
+	CPSC 323 Compilers and Languages
+	Lexical Analyzer
+	September 19, 2019
+*/
+
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -18,6 +28,7 @@
 #include <string>
 #include <vector>
 using namespace std;
+
 
 struct Instruction {
 	int address;
@@ -29,8 +40,6 @@ vector<tuple<string, int, string>> genSymbols(vector<tuple<string, string>> list
 
 bool checkDuplicate(vector<tuple<string, int, string>> table, string id);
 
-void genInstruction(string operation, string id);
-
-string getAddress(vector<tuple<string, int, string>> table, string token);
 
 #endif
+#pragma once

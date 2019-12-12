@@ -18,12 +18,11 @@ int main()
 {
 	ifstream inFile;
 	string userInput;
-	ofstream outFile("output.txt");
+	ofstream outFile("syntaxAnalyzer.txt");
 	vector<tuple<string, string>> list;
-	//vector<tuple<string, string>> symbolTable;
 
 	cout << "------------------------------------------------------------\n"
-		<< "SYNTAX ANALYZER by:\n"
+		<< "COMPILER by:\n"
 		<< "Johanna Nguyen, Gilbert Paderogo, Richard Phan\n"
 		<< "------------------------------------------------------------\n"
 		<< "Enter a text file location and name.\n"
@@ -33,7 +32,6 @@ int main()
 		<< "Your file name: ";
 
 	cin >> userInput;				//Saves file destination as string
-
 
 	inFile.open(userInput);
 	if (inFile.is_open())
@@ -48,9 +46,10 @@ int main()
 		analyzer(list);
 
 		cout << "------------------------------------------------------------\n"
-			<< "File has successfully been processed.\n"
-			<< "Your results have been printed to \"output.txt.\"\n"
-			<< "Symbol table has been printed to \"assemblyCode.txt\"\n\n";
+			<< "File has successfully been processed.\n\n"
+			<< "Your results have been printed to \"syntaxAnalyzer.txt.\"\n"
+			<< "Symbol table has been printed to \"symbolTable.txt\"\n"
+			<< "Assembly code has been printed to \"assembly.txt.\"\n\n";
 	}
 	else
 		cerr << "------------------------------------------------------------\n"
@@ -59,8 +58,6 @@ int main()
 	inFile.close();
 	outFile.close();
 
-	genSymbols(list);
-	
 	system("Pause");
 	return 0;
 }

@@ -9,12 +9,18 @@
 
 #include "syntaxAnalyzer.h"
 #include "lexicalAnalyzer.h"
+#include "assembly.h"
 using namespace std;
 
+void genInstruction(string operation, string operand);
+string getAddress(vector<tuple<string, int, string>> table, string token);
+int instrAddress = 1;
+vector<Instruction> instrTable;
 
 int	analyzer(vector<tuple<string, string>> list)
 {
-	ofstream 			outFile("output.txt");
+	ofstream 			outFile("syntaxAnalyzer.txt");
+	ofstream			out("assembly.txt");
 	stack<string>		tableStack;
 	int					iterator = 0;
 	int					numStatements = 1;
@@ -44,6 +50,8 @@ int	analyzer(vector<tuple<string, string>> list)
 			numStatements++;
 		}
 	}
+
+	vector<tuple<string, int, string>> symbolTable = genSymbols(list);
 
 	for (int i = 0; i < numStatements; i++) {
 		// push "$" and starting "S" symbol
@@ -147,6 +155,8 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("E");
 					tableStack.push("=");
 					tableStack.push("id");
+					genInstruction("PUSHI", "intvalue");
+					genInstruction("POPM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "5")
 				{
@@ -158,12 +168,14 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("E'");
 					tableStack.push("T");
 					tableStack.push("+");
+					genInstruction("ADD", "nil");
 				}
 				else if (parserTable[row][col] == "7")
 				{
 					tableStack.push("E'");
 					tableStack.push("T");
 					tableStack.push("-");
+					genInstruction("SUB", "nil");
 				}
 				else if (parserTable[row][col] == "8")
 				{
@@ -175,12 +187,14 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("T'");
 					tableStack.push("F");
 					tableStack.push("*");
+					genInstruction("MUL", "nil");
 				}
 				else if (parserTable[row][col] == "10")
 				{
 					tableStack.push("T'");
 					tableStack.push("F");
 					tableStack.push("/");
+					genInstruction("DIV", "nil");
 				}
 
 				else if (parserTable[row][col] == "11")
@@ -192,6 +206,7 @@ int	analyzer(vector<tuple<string, string>> list)
 				else if (parserTable[row][col] == "12")
 				{
 					tableStack.push("id");
+					genInstruction("PUSHM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "13")
 				{
@@ -214,6 +229,8 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("M");
 					tableStack.push("id");
 					tableStack.push("TYPE");
+					genInstruction("PUSHI", "intvalue");
+					genInstruction("POPM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "17")
 				{
@@ -246,6 +263,8 @@ int	analyzer(vector<tuple<string, string>> list)
 					tableStack.push("M");
 					tableStack.push("id");
 					tableStack.push(",");
+					//genInstruction("PUSHI", "intvalue");
+					//genInstruction("POPM", getAddress(symbolTable, get<1>(list.at(iterator))));
 				}
 				else if (parserTable[row][col] == "24")
 				{
@@ -263,14 +282,16 @@ int	analyzer(vector<tuple<string, string>> list)
 				{
 					tableStack.push("endif");
 				}
-
-
 			}
 		}
 		outFile << "\n---------- END OF STATEMENT ----------\n" << endl;
 	}
-
 	outFile.close();
+
+	out << "Address\t" << "Op\t" << "Operand" << endl;
+	for (auto instr : instrTable) {
+		out << instr.address << "\t" << instr.operation << "\t" << instr.operand << endl;
+	}
 	return 0;
 }
 
@@ -424,18 +445,17 @@ void printRule(string ruleNum, ofstream& output)
 //Determines if string is a terminal
 bool isTerminal(string check)
 {
-	if (check == "while" || check == "{"       || check == "}"    || check == "id"      || 
-	check == "="         || check == "+"       || check == "-"    || check == "*"       ||
-	check == "/"         || check == "("       || check == ")"    || check == "integer" || 
-	check == "bool"      || check == "if"      || check == "else" || check == ";"       || 
-	check == ","         || check == "<"       || check == ">"    || check == "=="      || 
-	check == "int"       || check == "boolean" || check == "$"    || check == "endif")
+	if (check == "while" || check == "{" || check == "}" || check == "id" ||
+		check == "=" || check == "+" || check == "-" || check == "*" ||
+		check == "/" || check == "(" || check == ")" || check == "integer" ||
+		check == "bool" || check == "if" || check == "else" || check == ";" ||
+		check == "," || check == "<" || check == ">" || check == "==" ||
+		check == "int" || check == "boolean" || check == "$" || check == "endif")
 	{
 		return true;
 	}
 	return false;
 }
-
 
 //Used in parsing table
 int	getRow(string check)
@@ -521,4 +541,23 @@ int	getCol(string check)
 		return 24;
 	else
 		return -1;
+}
+
+void genInstruction(string operation, string operand) {
+	Instruction instr;
+
+	instr.address = instrAddress;
+	instr.operation = operation;
+	instr.operand = operand;
+
+	instrTable.push_back(instr);
+	instrAddress++;
+}
+
+string getAddress(vector<tuple<string, int, string>> table, string token) {
+	for (auto i : table) {
+		if (get<0>(i) == token) {
+			return to_string(get<1>(i));
+		}
+	}
 }
